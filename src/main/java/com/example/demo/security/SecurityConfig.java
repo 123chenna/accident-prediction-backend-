@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.security; // 🔥 change this to your package
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +11,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())   // disable csrf
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/**").permitAll() // allow all APIs
+                .anyRequest().permitAll()
             );
 
         return http.build();
