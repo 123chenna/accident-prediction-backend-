@@ -1,31 +1,20 @@
 package com.example.demo.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.*;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private JwtFilter filter;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
-            .csrf(csrf -> csrf.disable())   // ✅ correct syntax
-            .cors(cors -> {})               // ✅ enable CORS
+            .csrf(csrf -> csrf.disable())   // disable csrf
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/**").permitAll()   // 🔥 allow predict
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form.disable())     // ✅ important
-            .httpBasic(basic -> basic.disable());  // ✅ important
-
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class); // 🔥 REQUIRED
+                .requestMatchers("/**").permitAll() // allow all APIs
+            );
 
         return http.build();
     }
