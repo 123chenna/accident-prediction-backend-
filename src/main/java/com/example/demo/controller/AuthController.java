@@ -43,16 +43,34 @@ public class AuthController {
 
     
     
+//    @PostMapping("/login")
+//    public Map<String, String> login(@RequestBody User user) {
+//
+//        User u = service.login(user);
+//
+//        if (u != null) {
+//            String token = jwtUtil.generateToken(user.getUsername());
+//            return Map.of("token", token);
+//        }
+//
+//        return Map.of("error", "Invalid");
+//    }
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user) {
+
+        if(user.getUsername() == null || user.getUsername().isEmpty() ||
+           user.getPassword() == null || user.getPassword().isEmpty()) {
+
+            return ResponseEntity.badRequest().body("Username & Password required");
+        }
 
         User u = service.login(user);
 
         if (u != null) {
             String token = jwtUtil.generateToken(user.getUsername());
-            return Map.of("token", token);
+            return ResponseEntity.ok(Map.of("token", token));
         }
 
-        return Map.of("error", "Invalid");
+        return ResponseEntity.status(401).body("Invalid credentials");
     }
 }
