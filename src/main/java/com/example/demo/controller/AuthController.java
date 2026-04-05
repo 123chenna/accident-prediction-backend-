@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.User;
@@ -21,16 +22,25 @@ public class AuthController {
     @Autowired
     private JwtUtil jwtUtil;
 
+//    @PostMapping("/signup")
+//    public String signup(@RequestBody User user) {
+//        return service.register(user);
+//    }
     @PostMapping("/signup")
-    public String signup(@RequestBody User user) {
-        return service.register(user);
+   
+    public ResponseEntity<?> signup(@RequestBody User user) {
+
+        if(user.getUsername() == null || user.getUsername().isEmpty() ||
+           user.getPassword() == null || user.getPassword().isEmpty()) {
+
+            return ResponseEntity.badRequest().body("Fields cannot be empty");
+        }
+
+        service.register(user); // ✅ FIXED
+        return ResponseEntity.ok("User registered successfully");
     }
 
-//    @PostMapping("/login")
-//    public String login(@RequestBody User user) {
-//        User u = service.login(user);
-//        return (u != null) ? jwtUtil.generateToken(user.getUsername()) : "Invalid";
-//    }
+
     
     
     @PostMapping("/login")

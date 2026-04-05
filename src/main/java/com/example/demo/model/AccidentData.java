@@ -11,7 +11,7 @@ public class AccidentData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int speed;
+    private Integer speed;
     private String weather;
     private String roadType;
     private String trafficDensity;
@@ -24,10 +24,10 @@ public class AccidentData {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getSpeed() {
+	public Integer getSpeed() {
 		return speed;
 	}
-	public void setSpeed(int speed) {
+	public void setSpeed(Integer speed) {
 		this.speed = speed;
 	}
 	public String getWeather() {
