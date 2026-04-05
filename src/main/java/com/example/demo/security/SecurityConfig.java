@@ -1,4 +1,4 @@
-package com.example.demo.security; // 🔥 change this to your package
+package com.example.demo.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +10,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
             .csrf(csrf -> csrf.disable())
+            .cors(cors -> {})   // ✅ enable CORS
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**").permitAll()
                 .anyRequest().permitAll()
             );
 
